@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
+import '../../core/constants/app_constants.dart';
 import '../../core/constants/app_strings.dart';
+import 'storage_service.dart';
 
 class ApiService {
   late final Dio _dio;
 
-  static const String _baseUrl = 'https://frijo.noviindus.in/api/';
-
   ApiService() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: _baseUrl,
-        connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
+        baseUrl: AppConstants.baseUrl,
+        connectTimeout: const Duration(seconds: AppConstants.connectTimeout),
+        receiveTimeout: const Duration(seconds: AppConstants.receiveTimeout),
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
       ),
     );
@@ -22,9 +22,10 @@ class ApiService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          // Add auth token if available
-          // final token = StorageService.getToken();
-          // if (token != null) options.headers['Authorization'] = 'Bearer $token';
+          final token = StorageService.getToken();
+          if (token != null && token.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
           return handler.next(options);
         },
         onResponse: (response, handler) {

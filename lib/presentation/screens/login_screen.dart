@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/utils/app_utils.dart';
+import '../../core/utils/navigation_utils.dart';
 import '../providers/auth_provider.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,8 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (success) {
-      //Navigate to HomeScreen
-      AppUtils.showSnackBar(context, 'Login successful!');
+      NavigationUtils.pushAndRemoveUntil(context, const HomeScreen());
     } else {
       AppUtils.showSnackBar(context, auth.errorMessage, isError: true);
     }
