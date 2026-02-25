@@ -9,7 +9,6 @@ class StorageService {
 
   // Auth
   static const String _keyToken = 'auth_token';
-  static const String _keyUserId = 'user_id';
   static const String _keyIsLoggedIn = 'is_logged_in';
 
   static Future<void> saveToken(String token) async {
@@ -17,12 +16,6 @@ class StorageService {
   }
 
   static String? getToken() => _prefs?.getString(_keyToken);
-
-  static Future<void> saveUserId(String userId) async {
-    await _prefs?.setString(_keyUserId, userId);
-  }
-
-  static String? getUserId() => _prefs?.getString(_keyUserId);
 
   static Future<void> setLoggedIn(bool value) async {
     await _prefs?.setBool(_keyIsLoggedIn, value);

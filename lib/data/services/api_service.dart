@@ -54,22 +54,6 @@ class ApiService {
     }
   }
 
-  Future<Response> put(String endpoint, {dynamic data}) async {
-    try {
-      return await _dio.put(endpoint, data: data);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Future<Response> delete(String endpoint) async {
-    try {
-      return await _dio.delete(endpoint);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
   Future<Response> postFormData(
     String endpoint,
     FormData formData, {

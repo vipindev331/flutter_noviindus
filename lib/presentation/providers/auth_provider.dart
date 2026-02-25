@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import '../../data/models/auth_model.dart';
 import '../../data/services/api_service.dart';
 import '../../data/services/storage_service.dart';
@@ -43,9 +42,4 @@ class AuthProvider extends BaseProvider {
     }
   }
 
-  Future<void> logout(BuildContext context) async {
-    await StorageService.clearAll();
-    _authModel = null;
-    setIdle();
-  }
 }
