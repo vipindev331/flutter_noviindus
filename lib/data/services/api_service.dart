@@ -70,9 +70,17 @@ class ApiService {
     }
   }
 
-  Future<Response> postFormData(String endpoint, FormData formData) async {
+  Future<Response> postFormData(
+    String endpoint,
+    FormData formData, {
+    ProgressCallback? onSendProgress,
+  }) async {
     try {
-      return await _dio.post(endpoint, data: formData);
+      return await _dio.post(
+        endpoint,
+        data: formData,
+        onSendProgress: onSendProgress,
+      );
     } on DioException catch (e) {
       throw _handleError(e);
     }

@@ -4,6 +4,10 @@ import '../../core/widgets/feed_card.dart';
 import '../../core/widgets/loading_widget.dart';
 import '../../data/models/category_model.dart';
 import '../providers/home_provider.dart';
+import '../providers/add_feed_provider.dart';
+import '../providers/my_feed_provider.dart';
+import 'add_feed_screen.dart';
+import 'my_feed_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hello,',
+                  'Hello',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 26,
@@ -84,7 +88,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              // Navigate to My Feeds Screen
+              final myFeedProvider = context.read<MyFeedProvider>();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ChangeNotifierProvider.value(
+                    value: myFeedProvider,
+                    child: const MyFeedScreen(),
+                  ),
+                ),
+              );
             },
             child: Container(
               width: 44,
@@ -222,8 +235,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {
-        // Navigate to Add Feeds Screen
+      onPressed: () async {
+        final provider = context.read<AddFeedProvider>()..resetForm();
+        final added = await Navigator.push<bool>(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider.value(
+              value: provider,
+              child: const AddFeedScreen(),
+            ),
+          ),
+        );
+        // Refresh home feed when a new post was added
+        if (added == true && context.mounted) {
+          context.read<HomeProvider>().init();
+        }
       },
       backgroundColor: _red,
       shape: const CircleBorder(),

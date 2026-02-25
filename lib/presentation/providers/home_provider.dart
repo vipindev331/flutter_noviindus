@@ -28,7 +28,7 @@ class HomeProvider extends BaseProvider {
       final response = await _apiService.get('category_list');
       final data = response.data as Map<String, dynamic>;
       if (data['status'] == true) {
-        final list = data['data'] as List? ?? [];
+        final list = data['categories'] as List? ?? [];
         _categories = list
             .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
             .toList();

@@ -5,7 +5,9 @@ import 'core/constants/app_strings.dart';
 import 'data/services/api_service.dart';
 import 'data/services/storage_service.dart';
 import 'presentation/providers/auth_provider.dart';
+import 'presentation/providers/add_feed_provider.dart';
 import 'presentation/providers/home_provider.dart';
+import 'presentation/providers/my_feed_provider.dart';
 import 'presentation/screens/login_screen.dart';
 
 void main() async {
@@ -29,6 +31,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<ApiService, HomeProvider>(
           create: (ctx) => HomeProvider(ctx.read<ApiService>()),
           update: (_, api, prev) => prev ?? HomeProvider(api),
+        ),
+        ChangeNotifierProxyProvider<ApiService, AddFeedProvider>(
+          create: (ctx) => AddFeedProvider(ctx.read<ApiService>()),
+          update: (_, api, prev) => prev ?? AddFeedProvider(api),
+        ),
+        ChangeNotifierProxyProvider<ApiService, MyFeedProvider>(
+          create: (ctx) => MyFeedProvider(ctx.read<ApiService>()),
+          update: (_, api, prev) => prev ?? MyFeedProvider(api),
         ),
       ],
       child: MaterialApp(
